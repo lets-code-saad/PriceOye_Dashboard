@@ -10,14 +10,6 @@ from screens.price_analysis import price_analysis
 from screens.stock_status import stock_status
 from screens.variant_structure import variant_structure
 
-
-# DATABASE CONNECTION
-try:
-    conn = database_connection()
-except Exception as e:
-    conn = None
-    st.warning("Database disabled in cloud demo")
-
 st.set_page_config(page_title="Priceoye Dashboard")
 
 
@@ -29,9 +21,22 @@ JOIN colour clr ON clr.product_id = p.product_id
 JOIN storage s ON s.product_id = p.product_id
 """
 
+USE_DB = False
+
+def load_data():
+    if USE_DB:
+        # LOCAL DB CONNECTION
+        conn = database_connection()
+        df = pd.read_sql(query, conn)
+        df.to_csv("data/priceoye_data.csv", index=False)
+        return df
+    else:
+        return pd.read_csv("data/priceoye_data.csv")
+
 
 # BASE DATAFRAME
-DF_BASE = pd.read_sql(query, conn)
+DF_BASE = load_data()
+
 # FILTERED DATAFRAME
 FILTERED_DF = global_filter(DF_BASE)
 
