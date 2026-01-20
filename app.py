@@ -12,7 +12,11 @@ from screens.variant_structure import variant_structure
 
 
 # DATABASE CONNECTION
-conn = database_connection()
+try:
+    conn = database_connection()
+except Exception as e:
+    conn = None
+    st.warning("Database disabled in cloud demo")
 
 st.set_page_config(page_title="Priceoye Dashboard")
 
