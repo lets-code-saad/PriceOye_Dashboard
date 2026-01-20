@@ -9,7 +9,7 @@ def colour_storage_trends(FILTERED_DF):
 
     CLEANED_COLOUR_STORAGE_DF = FILTERED_DF.dropna(subset=["RAM", "ROM"])
     FILTERED_COLOUR_STORAGE_DF = colour_storage_filter(CLEANED_COLOUR_STORAGE_DF)
-    unique_products = FILTERED_COLOUR_STORAGE_DF.drop_duplicates(subset=["product_id"])
+    unique_variants = FILTERED_COLOUR_STORAGE_DF.drop_duplicates(subset=["variant_id"])
 
     CLEANED_COLOUR_STORAGE_DF["storage_combination"] = (
         CLEANED_COLOUR_STORAGE_DF["RAM"].astype(str)
@@ -30,7 +30,7 @@ def colour_storage_trends(FILTERED_DF):
     # 10 Most Common Colors
 
     kpi_most_common_colors = (
-        FILTERED_COLOUR_STORAGE_DF.groupby("color_name", as_index=False)
+        unique_variants.groupby("color_name", as_index=False)
         .agg(count_color_products=("product_id", "count"))
         .sort_values("count_color_products", ascending=False)
     ).head(10)

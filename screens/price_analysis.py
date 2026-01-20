@@ -28,8 +28,9 @@ def price_analysis(FILTERED_DF):
 
     
     # AVERAGE PRICE BY CATEGORY
+    unique_products = FILTERED_DF.drop_duplicates(subset=["product_id"])
     kpi_avg_price_category = (
-        FILTERED_DF.groupby("category_name", as_index=False)
+        unique_products.groupby("category_name", as_index=False)
         .agg(average_price=("new_price", "mean"))
         .sort_values("average_price", ascending=False)
     )
@@ -80,7 +81,7 @@ def price_analysis(FILTERED_DF):
 
     # Avg Old Price vs New Price By Category
     compare_avg_old_new_price = (
-        FILTERED_DF.groupby("category_name", as_index=False)
+        unique_products.groupby("category_name", as_index=False)
         .agg(avg_old_price=("old_price", "mean"), avg_new_price=("new_price", "mean"))
         .sort_values(["avg_old_price", "avg_new_price"], ascending=False)
     )

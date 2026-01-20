@@ -6,7 +6,8 @@ import plotly.graph_objects as go
 def discount_analysis(FILTERED_DF):
 
     # DISCOUNT DISTRIBUTION
-    discount_values = FILTERED_DF["discount"].dropna()
+    unique_variants = FILTERED_DF.drop_duplicates(subset=["variant_id"])
+    discount_values = unique_variants["discount"].dropna()
     fig_kpi_discount_distribution = px.histogram(
         discount_values,
         x="discount",
@@ -54,7 +55,7 @@ def discount_analysis(FILTERED_DF):
 
     # DISCOUNT VS RATINGS
     kpi_discount_vs_ratings = (
-        FILTERED_DF.dropna(subset=["discount", "rating"])
+        unique_variants.dropna(subset=["discount", "rating"])
         .groupby("product_id")
         .agg(max_discount=("discount", "max"), max_rating=("rating", "max"))
     )
@@ -76,7 +77,7 @@ def discount_analysis(FILTERED_DF):
 
     # Average Discount by Category
     kpi_avg_discount_by_category = (
-        FILTERED_DF.dropna(subset=["category_name", "discount"])
+        unique_variants.dropna(subset=["category_name", "discount"])
         .groupby(["category_id", "category_name"], as_index=False)
         .agg(avg_discount=("discount", "mean"))
         .round(0)
