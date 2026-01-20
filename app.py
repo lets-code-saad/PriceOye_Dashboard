@@ -43,7 +43,7 @@ FILTERED_DF = global_filter(DF_BASE)
 
 # sidebar
 st.sidebar.image(
-    r"D:\data_science\Python\Streamlit Projects\Priceoye Analyzer\logo\Priceoye_logo.png",
+    r"logo\Priceoye_logo.png",
     caption="PriceOye",
 )
 # PAGE NAVIGATION
