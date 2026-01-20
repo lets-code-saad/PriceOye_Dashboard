@@ -43,7 +43,7 @@ FILTERED_DF = global_filter(DF_BASE)
 
 # sidebar
 st.sidebar.image(
-    "logo\Priceoye_logo.png",
+    "logo/Priceoye_logo.png",
     caption="PriceOye",
 )
 # PAGE NAVIGATION
